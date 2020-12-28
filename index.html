@@ -5,16 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
+    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'/>
+    <link rel="stylesheet" type="text/css" href="./css/main.css"/>
+
     <script type="text/javascript" src="./js/app.js"></script>
     <script type="text/javascript" src="./js/three.js"></script>
     <script type="text/javascript" src="./js/libs.js"></script>
-    <script type="text/javascript" src="./js/threejs/MTLLoader.js"></script>
     <script type="text/javascript" src="./js/threejs/GLTFLoader.js"></script>
-    <script type="text/javascript" src="./js/threejs/OBJLoader.js"></script>
     <script type="text/javascript" src="./js/threejs/OrbitControls.js"></script>
 
 </head>
-<body onload='app()'>
-    <canvas id="my_canvas"></canvas>
+<body onload="move()">    
+      <div class="container" id="container">
+        <div class="loading-Game">Loading Game</div>
+          <div id="myProgress">
+            <div id="myBar">
+            </div>
+          </div>
+      </div>   
 </body>
 </html>

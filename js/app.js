@@ -1,35 +1,85 @@
+var i = 0;
+      function move() {
+        if (i == 0) {
+          i = 1;
+          var container = document.getElementById("container")
+          var elem = document.getElementById("myBar");
+          var width = 0;
+          var id = setInterval(frame, 22);
+          function frame() {
+            if (width >= 100) {
+                container.style.display = "none";
+                clearInterval(id);
+                app();            
+                i = 0;
+            } else {
+              width+=1;
+              console.log("afdh", width);
+              elem.style.width = width + "%";
+            }
+          }
+        }
+      }
+
 var app = function() {
     // init scene, camera, objects and renderer
-    var scene, camera, renderer,crate;
-    let mixerBook;
+    var scene, camera, renderer,car;
+    let mixerCar;
     const clock = new THREE.Clock();
-    const A_Key = 65, D_Key=68;
 
-    var onKeyDown = function(e){
-        console.log("the current key:"+e.keyCode);
-        switch(e.keyCode){
-            case A_Key:
-                crate.position.x += -100;
-                break;
-            case D_Key:
-                crate.position.x += 100;
-                break;
-            default:
-                console.log("the current key:"+e.keyCode);
-        }
+    var meteors = [];
+    var barriers = [];
+    var group = new THREE.Group(meteors);
+
+    var randomInRange = function(min, max){
+        return Math.random()*(max-min)+min;
     }
+
+    var create_barrier = function(){
+        var geometry = new THREE.TorusGeometry(3,1.5,20,50);
+        var material = new THREE.MeshBasicMaterial({color:Math.random()*0xffffff});
+        var barrier = new THREE.Mesh(geometry,material);
+        
+        barrier.position.x = randomInRange(-200, 200);
+        barrier.position.y = 0;
+        barrier.position.z = -1000;
+        barrier.name = "barrier";
+        scene.add(barrier);
+        barriers.push(barrier);
+    };
     
+    var meteor = function () {
+        var material = new THREE.MeshBasicMaterial({
+            color:0xfff4bd
+          });
+
+          // Cube  
+        var geometry = new THREE.SphereGeometry( 2.2, 8, 6);   
+
+        var meteor = new THREE.Mesh(geometry,material);
+
+        meteor.position.x = randomInRange(-1500, 1500);
+        meteor.position.y = randomInRange(-1500, 1500);
+        meteor.position.z = randomInRange(-4000, 1000);
+        meteor.name ="meteor";
+
+        group.add(meteor);
+        scene.add(group);
+        // scene.add(meteor);
+        meteors.push(meteor);
+    };
+
     var load_car_model = function() {
         var gltfLoader = new THREE.GLTFLoader();
-        gltfLoader.load("./data/models/scene.gltf", (gltf) => {
-            book = gltf.scene;
-            book.scale.setScalar(1.5);
-            book.rotation.y = MY_LIBS.degToRad(45);
-            book.position.set(0,-600,1000);
-            scene.add(book);
-            mixerBook = new THREE.AnimationMixer(book);
+        gltfLoader.load("./data/models/car/scene.gltf", (gltf) => {
+            car = gltf.scene;
+            car.scale.setScalar(2);
+            car.rotation.y = MY_LIBS.degToRad(45);
+            car.position.set(0,0,1000);
+            scene.add(car);
+            mixerCar = new THREE.AnimationMixer(car);
             gltf.animations.forEach((clip) => {
-                mixerBook.clipAction(clip).play();
+                mixerCar.clipAction(clip).play();
             })
         });
     };
@@ -64,9 +114,11 @@ var app = function() {
         scene.background = new THREE.Color(0x000000);
 
         // 2. Create and locate the camera
+        
         var fieldOfViewY = 60, aspectRatio = window.innerWidth / window.innerHeight, near = 0.1, far = 10000.0;
         camera = new THREE.PerspectiveCamera(fieldOfViewY, aspectRatio, near, far);
-        camera.position.z = 1000;
+        camera.position.z = 600;
+        camera.position.y = 0;
 
         // light
         var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -104,15 +156,62 @@ var app = function() {
         controls.enableDamping = true;
         controls.campingFactor = 0.25;
         controls.enableZoom = true;
+
+        // controls.update();
         
-        //control direction model
-        document.addEventListener("keyDown",onKeyDown,false);
     };
+    // mover the object by keydown 
+    document.addEventListener('keydown', function(e){
+        console.log("the current key:"+e.keyCode);
+        var speed = 75;
+        switch(e.keyCode){
+            case 65:
+                car.position.x += -speed;
+                car.rotateX(-0.05);
+                break;
+            case 68:
+                car.position.x += speed;
+                car.rotateX(0.05);
+                break;
+            default:
+                console.log("the current key:"+e.keyCode);
+        }
+    });
+
+    var update_meteor = function(meteor,index){
+        meteor.position.z += 5;
+        if(meteor.position.z >=1000){
+            meteors.splice(index,1);
+            scene.remove(meteor);
+        }
+    };
+
+    var update_barrier = function(barrier,index){
+        barrier.position.z += 5;
+        if(barrier.position.z >=1000){
+            barriers.splice(index,1);
+            scene.remove(barrier);
+        }
+    };
+
     // main animation loop - calls every 50-60ms
     var mainLoop = function() {
         requestAnimationFrame(mainLoop);
         const delta = clock.getDelta();
-        mixerBook.update(delta);
+        mixerCar.update(delta);
+        group.rotation.z += 0.003;
+
+        let randBarrier = Math.random();
+        if(randBarrier < 0.005){
+            create_barrier();
+        }
+        barriers.forEach(update_barrier);
+
+        let rand = Math.random();
+        if(rand = 1){
+            meteor();
+        }
+        meteors.forEach(update_meteor);
         renderer.render(scene, camera);
     };
     init_app();
