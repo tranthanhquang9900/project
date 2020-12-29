@@ -34,29 +34,19 @@ var app = function() {
     var group = new THREE.Group(meteors);
     var positionA = new THREE.Vector3();
 
-    function endGame(){
-        var end = document.getElementById("menu-break");
-        if(positionA.x == barrier.position.x & positionA.z == barrier.position.z){
-            console.log("adadadaadad");
-            end.style.display="block";
-        }
-        // if(positionA.x <0){
-        //     console.log("pos");
-        // }
-      };
-
     var randomInRange = function(min, max){
         return Math.random()*(max-min)+min;
     }
 
     var create_barrier = function(){
-        var geometry = new THREE.TorusGeometry(3,1.5,20,50);
+        var geometry = new THREE.TorusGeometry(12,6,20,50);
         var material = new THREE.MeshBasicMaterial({color:Math.random()*0xffffff});
         barrier = new THREE.Mesh(geometry,material);
         
-        barrier.position.x = randomInRange(-200, 200);
-        barrier.position.y = 0;
-        barrier.position.z = -3000;
+        // barrier.position.x = randomInRange(-200, 200);
+        barrier.position.x = 0;
+        barrier.position.y = -50;
+        barrier.position.z = -1500;
         barrier.name = "barrier";
         scene.add(barrier);
         barriers.push(barrier);
@@ -89,7 +79,7 @@ var app = function() {
             car = gltf.scene;
             car.scale.setScalar(2);
             car.rotation.y = MY_LIBS.degToRad(45);
-            car.position.set(0,0,1000);
+            car.position.set(0,-500,0);
             scene.add(car);
             mixerCar = new THREE.AnimationMixer(car);
             gltf.animations.forEach((clip) => {
@@ -129,12 +119,11 @@ var app = function() {
         scene.updateMatrixWorld(true);
 
         // 2. Create and locate the camera
+
         
         var fieldOfViewY = 60, aspectRatio = window.innerWidth / window.innerHeight, near = 0.1, far = 10000.0;
         camera = new THREE.PerspectiveCamera(fieldOfViewY, aspectRatio, near, far);
-        camera.position.z = 600;
-        camera.position.y = 0;
-
+        
         // light
         var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
         var pointLight = new THREE.PointLight(0xffffff, 1, 100);
@@ -146,13 +135,13 @@ var app = function() {
         // three directional lights
 
         const keyLight = new THREE.DirectionalLight( 0xffffff, 1);
-        keyLight.position.set(100,1,-50);
+        keyLight.position.set(100,100,-500);
 
         const fillLight = new THREE.DirectionalLight( 0xffffff, 1);
-        fillLight.position.set(100,1,50);
+        fillLight.position.set(100,100,500);
 
         const backLight = new THREE.DirectionalLight( 0xffffff, 1);
-        backLight.position.set(-50,1,10);
+        backLight.position.set(-50,100,100);
 
         scene.add(keyLight);
         scene.add(fillLight);
@@ -167,10 +156,10 @@ var app = function() {
         document.body.appendChild(renderer.domElement);
 
         // control camera
-        var controls = new THREE.OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true;
-        controls.campingFactor = 0.25;
-        controls.enableZoom = true;
+        // var controls = new THREE.OrbitControls(camera, renderer.domElement);
+        // controls.enableDamping = true;
+        // controls.campingFactor = 0.25;
+        // controls.enableZoom = true;
 
         // controls.update();
         
@@ -233,9 +222,8 @@ var app = function() {
         barriers.forEach(barrier => {
             console.log("positionA.z",positionA.z);
             console.log("barrier.position.z",barrier.position.z);
-            if(positionA.z < barrier.position.z){
+            if(positionA.x == barrier.position.x && positionA.z - 500 == barrier.position.z){
                 var end = document.getElementById("menu-break");
-                // console.log("adadadaadad");
                 end.style.display="block";
             }            
         });
