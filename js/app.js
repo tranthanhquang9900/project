@@ -45,11 +45,40 @@ var app = function() {
         
         // barrier.position.x = randomInRange(-200, 200);
         barrier.position.x = 0;
-        barrier.position.y = -50;
+        barrier.position.y = -100;
         barrier.position.z = -1500;
         barrier.name = "barrier";
         scene.add(barrier);
         barriers.push(barrier);
+    };
+
+    var create_intro = function(){
+        // var loader = new THREE.FontLoader();
+
+        // loader.load( './js/helvetiker_regular.typeface.json', function ( font ) {
+
+        //     var geometry = new THREE.TextGeometry( 'Hello three.js!', {
+        //         font: font,
+        //         size: 80,
+        //         height: 5,
+        //         curveSegments: 12,
+        //         bevelEnabled: true,
+        //         bevelThickness: 10,
+        //         bevelSize: 8,
+        //         bevelOffset: 0,
+        //         bevelSegments: 5
+        //     } );
+        //     var textMaterial = new THREE.MeshBasicMaterial({color: 0xffffff});
+        //     var text = new THREE.Mesh(geometry,textMaterial);
+            document.addEventListener('keydown', function(e){
+                console.log("the current key:"+e.keyCode);
+                if(e.keyCode = 13){
+                    create_barrier();
+                }
+            });
+        //     text.position.set(0,-500,0);
+        //     scene.add(text);
+        // } );
     };
     
     var meteor = function () {
@@ -147,6 +176,7 @@ var app = function() {
         scene.add(fillLight);
         scene.add(backLight);
 
+        // create_intro();
         load_car_model();
         create_skybox();
 
@@ -164,23 +194,28 @@ var app = function() {
         // controls.update();
         
     };
+    var gogo = false;
     // mover the object by keydown 
     document.addEventListener('keydown', function(e){
         console.log("the current key:"+e.keyCode);
+        gogo = true;
         var speed = 75;
-        switch(e.keyCode){
-            case 65:
-                car.position.x += -speed;
-                car.rotateX(-0.05);
-                break;
-            case 68:
-                car.position.x += speed;
-                car.rotateX(0.05);
-                break;
-            default:
-                console.log("the current key:"+e.keyCode);
+        if(e.keyCode = 13){
+            switch(e.keyCode){
+                case 65:
+                    car.position.x += -speed;
+                    car.rotateX(-0.05);
+                    break;
+                case 68:
+                    car.position.x += speed;
+                    car.rotateX(0.05);
+                    break;
+                default:
+                    console.log("the current key:"+e.keyCode);
+            }
         }
     });
+        
 
     var update_meteor = function(meteor,index){
         meteor.position.z += 5;
@@ -207,10 +242,13 @@ var app = function() {
         group.rotation.z += 0.003;
     
         let randBarrier = Math.random();
-        if(randBarrier < 0.005){
+        if(randBarrier < 0.05){
             create_barrier();
         }
-        barriers.forEach(update_barrier);
+
+        if (gogo){
+        barriers.forEach(update_barrier);   
+        }
 
         let rand = Math.random();
         if(rand = 1){
