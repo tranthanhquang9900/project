@@ -21,30 +21,31 @@ html,body{
 }
 #myProgress{
     /* width: 100%; */
-    background: rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.4);
     border-radius: 100px;
     align-items: center;
     position: relative;
     padding: 0 5px;
     display: flex;
     height: 40px;
-    width: 70%;
+    width: 60%;
     margin: 0 auto;
     margin-top: 2%;
 }
 #myBar {
     width: 0%;
-    box-shadow: 0 10px 40px -10px #fff;
+    box-shadow: 0 22px 22px -10px #fff;
     border-radius: 100px;
     background: #fff;
     height: 30px;
 }
 .loading-Game{
     font-size: 50px;
-    width: 70%;
+    width: 60%;
     margin: 0 auto;
     animation: glitch 0.5s linear infinite;
     padding-top: 20%;
+    text-shadow: 13px 13px 8px #00fff2;
 }
 @keyframes glitch{
     2%,64%{
@@ -135,4 +136,24 @@ to {
     color: gray;
     text-shadow: 0 0 20px #00fff2, 0 0 30px #00fff2, 0 0 40px #00fff2, 0 0 50px #00fff2, 0 0 60px #00fff2, 0 0 70px #00fff2, 0 0 80px #00fff2, 0 1 90px #00fff2;
 }
+}
+button{
+    font-family: 'Audiowide', cursive;
+    font-size: 3rem;
+    padding: 8px 22px;
+    -webkit-animation: glow 2s ease-in-out infinite alternate;
+-moz-animation: glow 2s ease-in-out infinite alternate;
+animation: glow 2s ease-in-out infinite alternate;
+cursor: pointer;
+margin-top: 4%;
+}
+#count{
+    display: none;
+    background: red;
+    position: absolute;
+    color: white;
+    padding: 10px 20px;
+    margin: 22% 0 0 6%;
+    font-size: 2rem;
+    transform: skew(10deg, 10deg);
 }

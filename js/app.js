@@ -1,16 +1,18 @@
-var i = 0;
 function move() {
-if (i == 0) {
+    var i = 0;
+    if (i == 0) {
     i = 1;
-    var container = document.getElementById("container")
+    var container = document.getElementById("container");
+    var countObj = document.getElementById("count");
     var elem = document.getElementById("myBar");
     var width = 0;
-    var id = setInterval(frame, 22);
+    var id = setInterval(frame, 30);
     function frame() {
     if (width >= 100) {
+        countObj.style.display = "block";
         container.style.display = "none";
         clearInterval(id);
-        app();            
+        app();  
         i = 0;
     } else {
         width+=1;
@@ -31,55 +33,55 @@ var app = function() {
     let mixerCar;
     const clock = new THREE.Clock();
     var barrier;
+    var count =0;
 
     var meteors = [];
     var barriers = [];
     var group = new THREE.Group(meteors);
     var positionA = new THREE.Vector3();
+    var imgLoad = new THREE.TextureLoader().load("./data/textures/box.jpg");
 
     var randomInRange = function(min, max){
         return Math.random()*(max-min)+min;
     }
 
     var create_barrier = function(){
-        var geometry = new THREE.TorusGeometry(12,6,20,50);
-        var material = new THREE.MeshBasicMaterial({color:Math.random()*0xffffff});
+        var geometry = new THREE.BoxGeometry(22,22,22);
+        var material = new THREE.MeshBasicMaterial({map:imgLoad,color:Math.random()*0xffffff});
+        // var Lambermaterial = new THREE.MeshLamberMaterial({map:imgLoad,color:Math.random()*0xffffff,emissive: 'black'});
+        // var light = new THREE.MeshPhongMaterial({color:Lambermaterial,emissive:Lambermaterial,shininess:150});
         barrier = new THREE.Mesh(geometry,material);
         
-        // barrier.position.x = randomInRange(-200, 200);
-        barrier.position.x = 0;
-        barrier.position.y = -100;
+        barrier.position.x = randomInRange(-100, 100);
+        barrier.position.y = -50;
         barrier.position.z = -1500;
         barrier.name = "barrier";
         scene.add(barrier);
         barriers.push(barrier);
     };
-
-    var create_intro = function(){
-        var loader = new THREE.FontLoader();
-         loader.load('js/helvetiker_regular.typeface.json', function ( font ) {
-         
-            var textGeometry = new THREE.TextGeometry( "Enter To Play Game", {
+    var loader = new THREE.FontLoader();
+        loader.load('js/helvetiker_regular.typeface.json', function ( font ) {
+        
+        var textGeometry = new THREE.TextGeometry("Please Enter To Play Game", {
             font: font,
-            size: 1,
-            height: 1,
+            size: 4,
+            height: 2,
             curveSegments: 12,
-            bevelSegments: 5,
-            bevelThickness: 10,
-            bevelEnabled: true
-            });
         
-            var textMaterial = new THREE.MeshPhongMaterial( 
-            { color: 0xff9a1c, specular: 0xffffff }
-            );
+            bevelThickness: 1,
+            bevelSize: 0.5,
+            bevelOffset: 0
+        });
+    
+        var textMaterial = new THREE.MeshPhongMaterial( 
+        { color: 0x00fff2,specular: 0xffffff}
+        );
+    
+        mesh = new THREE.Mesh( textGeometry, textMaterial );
+        mesh.position.set(-32,20,-100);
+        scene.add( mesh );
         
-            mesh = new THREE.Mesh( textGeometry, textMaterial );
-            mesh.position.z = -700;
-        
-            scene.add( mesh );
-         
-         });
-    };
+        });
     
     var meteor = function () {
         var material = new THREE.MeshBasicMaterial({
@@ -117,30 +119,6 @@ var app = function() {
         });
     };
     
-    var create_skybox = function(){
-        var geometry = new THREE.BoxGeometry(10000,10000,10000);
-        var front_texture = new THREE.TextureLoader().load("./data/textures/skybox/corona_ft.png");
-        var back_texture = new THREE.TextureLoader().load("./data/textures/skybox/corona_bk.png");
-        var up_texture = new THREE.TextureLoader().load("./data/textures/skybox/corona_up.png");
-        var down_texture = new THREE.TextureLoader().load("./data/textures/skybox/corona_dn.png");
-        var right_texture = new THREE.TextureLoader().load("./data/textures/skybox/corona_rt.png");
-        var left_texture = new THREE.TextureLoader().load("./data/textures/skybox/corona_lf.png");
-
-        var materials = [];
-        materials.push(new THREE.MeshBasicMaterial({map:front_texture}));
-        materials.push(new THREE.MeshBasicMaterial({map:back_texture}));
-        materials.push(new THREE.MeshBasicMaterial({map:up_texture}));
-        materials.push(new THREE.MeshBasicMaterial({map:down_texture}));
-        materials.push(new THREE.MeshBasicMaterial({map:right_texture}));
-        materials.push(new THREE.MeshBasicMaterial({map:left_texture}));
-
-        //for loop
-        for(var i=0; i<6; i++){
-            materials[i].side = THREE.BackSide;
-        }
-        skybox = new THREE.Mesh(geometry,materials);
-        scene.add(skybox);
-    }
     var init_app = function() {
         // 1. Create the scene
         scene = new THREE.Scene();
@@ -176,9 +154,8 @@ var app = function() {
         scene.add(fillLight);
         scene.add(backLight);
 
-        create_intro();
         load_car_model();
-        create_skybox();
+        create_barrier();
 
         // 4. Create the renderer
         renderer = new THREE.WebGLRenderer();
@@ -186,11 +163,6 @@ var app = function() {
         document.body.appendChild(renderer.domElement);
 
         // control camera
-        // var controls = new THREE.OrbitControls(camera, renderer.domElement);
-        // controls.enableDamping = true;
-        // controls.campingFactor = 0.25;
-        // controls.enableZoom = true;
-
         // controls.update();
         
     };
@@ -199,16 +171,20 @@ var app = function() {
     document.addEventListener('keydown', function(e){
         console.log("the current key:"+e.keyCode);
         gogo = true;
-        var speed = 75;
+        var speed = 20;
         if(e.keyCode = 13){
             switch(e.keyCode){
-                case 65:
-                    car.position.x += -speed;
-                    car.rotateX(-0.05);
+                case 39:
+                    if(positionA.x <= 600){
+                        car.position.x += speed;
+                        car.rotateX(0.05);
+                    }
                     break;
-                case 68:
-                    car.position.x += speed;
-                    car.rotateX(0.05);
+                case 37:
+                    if(positionA.x >= -600){
+                        car.position.x += -speed;
+                        car.rotateX(-0.05); 
+                    }
                     break;
                 default:
                     console.log("the current key:"+e.keyCode);
@@ -226,28 +202,36 @@ var app = function() {
     };
 
     var update_barrier = function(barrier,index){
-        barrier.position.z += 5;
+        barrier.position.z += 8;
+        barrier.rotation.x += 0.08;
+        barrier.rotation.y += 0.08;
         if(barrier.position.z >=1500){
             barriers.splice(index,1);
             scene.remove(barrier);
         }
     };
 
+    var play = true;
     // main animation loop - calls every 50-60ms
     var mainLoop = function() {
        
-        requestAnimationFrame(mainLoop);
+        if(play){
+            requestAnimationFrame(mainLoop);
+        }
+        
         const delta = clock.getDelta();
         mixerCar.update(delta);
         group.rotation.z += 0.003;
-    
-        let randBarrier = Math.random();
-        if(randBarrier < 0.05){
+
+        if(barrier.position.z > positionA.z){
             create_barrier();
+            count += 1;
+            document.getElementById('count').innerHTML = 'Score : ' + count;
         }
 
         if (gogo){
-        barriers.forEach(update_barrier);   
+            scene.remove(mesh);
+            barriers.forEach(update_barrier);   
         }
 
         let rand = Math.random();
@@ -257,13 +241,15 @@ var app = function() {
         meteors.forEach(update_meteor);
 
         positionA.setFromMatrixPosition(car.matrixWorld);
-        barriers.forEach(barrier => {
-            console.log("positionA.z",positionA.z);
-            console.log("barrier.position.z",barrier.position.z);
-            if(positionA.x == barrier.position.x && positionA.z - 500 == barrier.position.z){
+        barriers.forEach(barrier => {  
+            if(positionA.z - 300 <= barrier.position.z && barrier.position.z <= positionA.z + 10 && barrier.position.x - 20 <= positionA.x && positionA.x <= barrier.position.x + 20){
+                document.body.removeChild(renderer.domElement);
                 var end = document.getElementById("menu-break");
                 end.style.display="block";
-            }            
+                // end.style.position="absolute";
+                // document.getElementById('count').innerHTML = 'Score : ' + count;
+                play = false;
+            } 
         });
         
         renderer.render(scene, camera);
