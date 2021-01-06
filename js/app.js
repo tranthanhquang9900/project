@@ -4,12 +4,14 @@ function move() {
     i = 1;
     var container = document.getElementById("container");
     var tutorial = document.getElementById("tutorial");
+    var count2 = document.getElementById("count2");
     var countObj = document.getElementById("count");
     var elem = document.getElementById("myBar");
     var width = 0;
     var id = setInterval(frame, 30);
     function frame() {
     if (width >= 100) {
+        count2.style.display = "block";
         countObj.style.display = "block";
         tutorial.style.display = "block";
         container.style.display = "none";
@@ -36,6 +38,7 @@ var app = function() {
     const clock = new THREE.Clock();
     var barrier;
     var count =0;
+    var point =0;
 
     var meteors = [];
     var barriers = [];
@@ -124,7 +127,7 @@ var app = function() {
     var init_app = function() {
         // 1. Create the scene
         scene = new THREE.Scene();
-        scene.background = new THREE.TextureLoader().load("./data/textures/hole2.jpg");
+        scene.background = new THREE.TextureLoader().load("./data/textures/background.png");
         scene.updateMatrixWorld(true);
 
         // 2. Create and locate the camera
@@ -221,10 +224,12 @@ var app = function() {
         if(barrier.position.z > positionA.z){
             create_barrier();
             count += 1;
+            point += 1;
             document.getElementById('count').innerHTML = 'Score : ' + count;
+            document.getElementById('point').innerHTML = 'Score : ' + point+" / 10";
         }
 
-        if(count == 5){
+        if(count == 10){
             document.body.removeChild(renderer.domElement);
             var winner = document.getElementById("menu-game");
             var countObj = document.getElementById("count");
@@ -248,8 +253,12 @@ var app = function() {
         barriers.forEach(barrier => {  
             if(positionA.z - 300 <= barrier.position.z && barrier.position.z <= positionA.z + 10 && barrier.position.x - 20 <= positionA.x && positionA.x <= barrier.position.x + 20){
                 document.body.removeChild(renderer.domElement);
-                var end = document.getElementById("menu-break");
+                var end = document.getElementById("menu-close");
                 var countObj = document.getElementById("count");
+
+                point = document.getElementById("point");
+                point.style.display="block";
+
                 countObj.style.display="none";
                 end.style.display="block";
                 play = false;

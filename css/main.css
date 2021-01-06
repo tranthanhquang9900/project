@@ -23,7 +23,6 @@ html,body{
 
 }
 #myProgress{
-    /* width: 100%; */
     background: rgba(255,255,255,0.4);
     border-radius: 100px;
     align-items: center;
@@ -105,23 +104,27 @@ html,body{
 }
 }
 
-#menu-break{
+#menu-close{
     width: 100%;
     height: 100%;
     display: none;
     justify-content: center;
     align-items: center;
     font-family: 'Audiowide', cursive;
-    background-image: url('data:image/svg+xml,%3Csvg width="42" height="44" viewBox="0 0 42 44" xmlns="http://www.w3.org/2000/svg"%3E%3Cg id="Page-1" fill="none" fill-rule="evenodd"%3E%3Cg id="brick-wall" fill="%239C92AC" fill-opacity="0.4"%3E%3Cpath d="M0 0h42v44H0V0zm1 1h40v20H1V1zM0 23h20v20H0V23zm22 0h20v20H22V23z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
+    background-image: url("back-close.gif");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+
 }
-.end-game {
+.close-game {
     text-align: center;
  }
  
-.end-game h5 {
-    padding-top: 20%;
+.close-game h5 {
+    padding-top: 13%;
     margin: 0;
-    font-size: 5rem;
+    font-size: 3.5rem;
     text-align: center;
     font-weight: bold;
     -webkit-animation: glow 2s ease-in-out infinite alternate;
@@ -165,15 +168,15 @@ to {
     text-shadow: 0 0 20px #00fff2, 0 0 30px #00fff2, 0 0 40px #00fff2, 0 0 50px #00fff2, 0 0 60px #00fff2, 0 0 70px #00fff2, 0 0 80px #00fff2, 0 1 90px #00fff2;
 }
 }
-button{
+.btn-again{
     font-family: 'Audiowide', cursive;
-    font-size: 3rem;
-    padding: 8px 22px;
+    font-size: 2rem;
+    padding: 6px 18px;
     -webkit-animation: glow 2s ease-in-out infinite alternate;
     -moz-animation: glow 2s ease-in-out infinite alternate;
     animation: glow 2s ease-in-out infinite alternate;
     cursor: pointer;
-    margin-top: 4%;
+    margin-top: 13%;
 }
 #count{
     font-family: 'Audiowide', cursive;
@@ -186,20 +189,45 @@ button{
     font-size: 2rem;
     transform: skew(10deg, 10deg);
 }
+
+#count2{
+    font-family: 'Audiowide', cursive;
+    display: none;
+    background: #00fff2;
+    position: absolute;
+    color: white;
+    padding: 10px 20px;
+    margin: 22% 6% 0 75%;
+    font-size: 2rem;
+    transform: skew(-10deg, -10deg);
+}
+
+#point{
+    font-family: 'Audiowide', cursive;
+    display: none;
+    background: #00fff2;
+    position: absolute;
+    color: white;
+    padding: 10px 20px;
+    margin: 22% 0 0 6%;
+    font-size: 2rem;
+}
+
 .alert {
     font-family: 'Audiowide', cursive;
     margin: 0;
     padding: 20px;
-    background: rgba(244, 67, 54, 0.8);
-    color: #00fff2;
+    background: rgba(255, 255, 255, 0.7);
+    color: #9c1313;
     position: absolute;
     left: 28%;
     top:44%;
+    border-radius: 1px solid #00fff2;
 }
 
 .closebtn {
     margin-left: 15px;
-    color: white;
+    color: black;
     font-weight: bold;
     float: right;
     font-size: 22px;
@@ -209,7 +237,7 @@ button{
 }
 
 .closebtn:hover {
-    color: black;
+    color: red;
 }
 #tutorial{
     display: none;
