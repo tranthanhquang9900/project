@@ -139,7 +139,10 @@ html,body{
     justify-content: center;
     align-items: center;
     font-family: 'Audiowide', cursive;
-    background-image: url('data:image/svg+xml,%3Csvg width="42" height="44" viewBox="0 0 42 44" xmlns="http://www.w3.org/2000/svg"%3E%3Cg id="Page-1" fill="none" fill-rule="evenodd"%3E%3Cg id="brick-wall" fill="%239C92AC" fill-opacity="0.4"%3E%3Cpath d="M0 0h42v44H0V0zm1 1h40v20H1V1zM0 23h20v20H0V23zm22 0h20v20H22V23z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
+    background-image: url("winner.gif");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
 }
 
 .winner {
@@ -147,7 +150,7 @@ html,body{
  }
  
 .winner h5 {
-    padding-top: 20%;
+    padding-top: 4%;
     margin: 0;
     font-size: 5rem;
     text-align: center;
@@ -178,51 +181,68 @@ to {
     cursor: pointer;
     margin-top: 13%;
 }
+
+.btn-again-winner{
+    font-family: 'Audiowide', cursive;
+    font-size: 2rem;
+    padding: 6px 18px;
+    -webkit-animation: glow 2s ease-in-out infinite alternate;
+    -moz-animation: glow 2s ease-in-out infinite alternate;
+    animation: glow 2s ease-in-out infinite alternate;
+    cursor: pointer;
+    margin-top: 22%;
+}
+
 #count{
     font-family: 'Audiowide', cursive;
     display: none;
-    background: #00fff2;
+    background: rgba(156, 19, 19, 0.5);
     position: absolute;
     color: white;
     padding: 10px 20px;
     margin: 22% 0 0 6%;
     font-size: 2rem;
     transform: skew(10deg, 10deg);
+    border-radius: 8px;
 }
 
 #count2{
     font-family: 'Audiowide', cursive;
     display: none;
-    background: #00fff2;
+    background: rgba(156, 19, 19, 0.5);
     position: absolute;
     color: white;
     padding: 10px 20px;
-    margin: 22% 6% 0 75%;
+    margin: 22% 6% 0 80%;
     font-size: 2rem;
     transform: skew(-10deg, -10deg);
+    border-radius: 8px;
 }
 
 #point{
     font-family: 'Audiowide', cursive;
     display: none;
-    background: #00fff2;
     position: absolute;
     color: white;
-    padding: 10px 20px;
     margin: 22% 0 0 6%;
-    font-size: 2rem;
+    font-size: 2.2rem;
+    text-shadow: 8px 8px 10px #00fff2;
 }
 
 .alert {
     font-family: 'Audiowide', cursive;
     margin: 0;
     padding: 20px;
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.6);
     color: #9c1313;
     position: absolute;
-    left: 28%;
-    top:44%;
+    left: 30.5%;
+    top:39%;
     border-radius: 1px solid #00fff2;
+}
+
+.mess-alert{
+    color: #753c3c;
 }
 
 .closebtn {

@@ -83,7 +83,7 @@ var app = function() {
         );
     
         mesh = new THREE.Mesh( textGeometry, textMaterial );
-        mesh.position.set(-33,10,-100);
+        mesh.position.set(-33,22,-100);
         scene.add( mesh );
         
         });
@@ -231,8 +231,12 @@ var app = function() {
 
         if(count == 10){
             document.body.removeChild(renderer.domElement);
+            var count2 = document.getElementById("count2");
             var winner = document.getElementById("menu-game");
             var countObj = document.getElementById("count");
+            point = document.getElementById("point");
+            point.style.display="block";
+            count2.style.display="none";
             countObj.style.display="none";
             winner.style.display="block";
             play = false;
@@ -255,7 +259,9 @@ var app = function() {
                 document.body.removeChild(renderer.domElement);
                 var end = document.getElementById("menu-close");
                 var countObj = document.getElementById("count");
+                var count2 = document.getElementById("count2");
 
+                count2.style.display="none";
                 point = document.getElementById("point");
                 point.style.display="block";
 
